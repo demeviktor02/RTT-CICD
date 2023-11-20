@@ -1,38 +1,73 @@
-""" Mádosfokú egyenlet megoldása pythonban"""
-import math
+""" Jelszó erősség ellenőrzése pythonban"""
 
+class JelszoErossegEllenorzo():
+    """ jelszó erősség ellenőrző osztály"""
 
-class EgyenletMegoldo():
-    """ egyenlet megoldó osztály"""
-    def masodfoku_egyenlet_megoldo(self, a, b, c):
-        """ másodfokú egyenlet megoldó metódus"""
+    def nagybetu_tartalmazo_ellenorzo(self, jelszo):
+        """nagybetűt tartalmazó ellenőrző, a felhasználó által beírt jelszóra"""
+        for betu in jelszo:
 
-        if type(a) not in [int, float] or type(b) not in [int, float] or type(c) not in [int, float]:
-            raise TypeError('Csak int vagy float típus elfogadható!')
+            # checking for uppercase character and flagging
+            if betu.isupper():
+                return True
+        return False
 
-        d = math.pow(b, 2) - (4 * a * c)
+    def specialis_karakter_tartalmazo_ellenorzo(self, jelszo):
+        """speciális karakter tartalmazó ellenőrző, a felhasználó által beírt jelszóra"""
+        special = "#@$%^&*()-+?_=,<>/"
+        for betu in jelszo:
 
-        if d < 0:
-            return None, None
+            # checking for uppercase character and flagging
+            if any(c in special for c in betu):
+                return True
+        return False
 
-        return (-b + math.sqrt(d)) / (2 * a), (-b - math.sqrt(d)) / (2 * a)
+    def jelszo_erosseg_ellenorzo(self, jelszo):
+        """jelszó erősség ellenőrző, a felhasználó által beírt jelszóra"""
 
-    def feladat_megoldo(self, a, b, c):
-        """feladatmegoldó, mai a másodfokú egyenlet megoldó eredményét írja ki"""
-        e = EgyenletMegoldo()
-        x1, x2 = e.masodfokuEgyenletMegoldo(a, b, c)
+        if type(jelszo) not in [str, chr]:
+            raise TypeError('Csak string típus elfogadható!')
 
-        print(f"{a}x^2 + {b}x + {c} = 0")
+        print(f"A felhasználó által begépelt jelszó: {jelszo}")
 
-        if (x1 is None) and (x2 is None):
-            print("Nincs megoldás")
-        elif x1 == x2:
-            print(f"Egy megoldás van: {x1}")
+        erosseg = 0
+
+        if jelszo == "":
+            print("-Nem adott meg jelszót")
+            erosseg = -1
+            return erosseg
+
+        if len(jelszo) < 8:
+            print(f"-A megadott jelszó hosszúsága kevesebb mint 8 karakter, csak "
+                  f"{len(jelszo)} karaktert tartalmaz")
         else:
-            print(f"Két megoldás van: x1={x1}, x2={x2}")
+            erosseg += 1
 
-#e = egyenletMegoldo()
-#e.feladatMegoldo(1, 2, 8)
-#e.feladatMegoldo(1, -14, 49)
-#e.feladatMegoldo(1, 6, 8)
-#e.feladatMegoldo("alma", 1, "körte")
+        if self.nagybetu_tartalmazo_ellenorzo(jelszo) == False:
+            print(f"-A megadott jelszó nem tartalmaz nagybetűt")
+        else:
+            erosseg += 1
+        if self.specialis_karakter_tartalmazo_ellenorzo(jelszo) == False:
+            print(f"-A megadott jelszó nem tartalmaz speciális karaktert")
+        else:
+            erosseg +=1
+
+        if erosseg == 0:
+            print("A jelszó nagyon gyenge")
+        elif erosseg == 1:
+            print("A jelszó gyenge")
+        elif erosseg == 2:
+            print("A jelszó közepes")
+        elif erosseg == 3:
+            print("A jelszó erős")
+
+        print("")
+        return erosseg
+
+
+j = JelszoErossegEllenorzo()
+j.jelszo_erosseg_ellenorzo("")
+j.jelszo_erosseg_ellenorzo("12345")
+j.jelszo_erosseg_ellenorzo("12345678")
+j.jelszo_erosseg_ellenorzo("N2345678")
+j.jelszo_erosseg_ellenorzo("N@345678")
