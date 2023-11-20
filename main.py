@@ -46,12 +46,12 @@ class JelszoErossegEllenorzo():
         if self.nagybetu_tartalmazo_ellenorzo(jelszo):
             erosseg += 1
         else:
-            print(f"-A megadott jelszó nem tartalmaz nagybetűt")
+            print("-A megadott jelszó nem tartalmaz nagybetűt")
 
         if self.specialis_karakter_tartalmazo_ellenorzo(jelszo):
             erosseg += 1
         else:
-            print(f"-A megadott jelszó nem tartalmaz speciális karaktert")
+            print("-A megadott jelszó nem tartalmaz speciális karaktert")
 
 
         if erosseg == 0:
